@@ -29,9 +29,9 @@ String dumpReportString(uint8_t *data, size_t length){
     return reportText;
 }
 
-void dumpKeyReport(uint8_t *data, size_t length){
+void dumpKeyReport(uint8_t *data, size_t length, String msg){
 
-    debugPrint(dumpReportString(data, length));
+    debugPrint(msg+dumpReportString(data, length));
 }
 
 Adafruit_NeoPixel pixels(NUM_PIXELS, RGB_PIN, NEO_GRB + NEO_KHZ800);
@@ -70,7 +70,7 @@ void dispDisconnectStat(){
 }
 
 void dispAtMouseStat(){
-        pixels.setPixelColor(0, pixels.Color(128, 128, 0));
+        pixels.setPixelColor(0, pixels.Color(0, 128, 0));
         pixels.show();
         delay(20);
         pixels.setPixelColor(0, pixels.Color(0, 0, 0));

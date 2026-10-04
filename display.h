@@ -4,7 +4,7 @@
 #include <Arduino.h>
 
 void debugPrint(String msg);
-void dumpKeyReport(uint8_t *data, size_t length);
+void dumpKeyReport(uint8_t *data, size_t length, String msg);
 String dumpReportString(uint8_t *data, size_t length);
 
 #include <Adafruit_NeoPixel.h>
