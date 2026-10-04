@@ -35,19 +35,18 @@ bool mouseProc( KeyReport report ){
     bool clickL = false;
     bool clickM = false;
     bool clickR = false;
-    bool doMouse = true;
+    bool doMouse = false;
     for (size_t i = 0; i < 6 ; i++) {
         switch( report.keys[i] ){
-        case HID_LARW:  dX = dX - 1;     break;
-        case HID_DARW:  dY = dY + 1;     break;
-        case HID_UARW:  dY = dY - 1;     break;
-        case HID_RARW:  dX = dX + 1;     break;
-        case HID_NTRN:  clickL = true;    break;
-        case HID_SP:  clickM = true;    break;
-        case HID_TRNS:  clickR = true;    break;
-        case HID_V:  dW = 1;    break;
-        case HID_B:  dW = -1;    break;
-        default:  doMouse = false;
+        case HID_F12:  dX = dX + 1;   doMouse = true;   break;
+        case HID_F11:  dY = dY - 1;   doMouse = true;   break;
+        case HID_F10:  dY = dY + 1;    doMouse = true;  break;
+        case HID_F9:  dX = dX - 1;   doMouse = true;   break;
+        case HID_F6:  dW = 1;   doMouse = true;  break;
+        case HID_F5:  dW = -1;   doMouse = true;  break;
+        case HID_F3:  clickR = true;   doMouse = true;  break;
+        case HID_F2:  clickM = true;   doMouse = true;  break;
+        case HID_F1:  clickL = true;   doMouse = true;  break;
         }
     }
     if( dX != 0 || dY != 0){
@@ -100,11 +99,10 @@ bool mouseProc( KeyReport report ){
     oldClickM = clickM;
     oldClickR = clickR;
 
-      
-  lastKeyInfo.accessTime = millis();
-  lastKeyInfo.report = report;
+    lastKeyInfo.accessTime = millis();
+    lastKeyInfo.report = report;
 
-  return doMouse;
+    return doMouse;
 }
 
 void mouseProcTimeout(){
