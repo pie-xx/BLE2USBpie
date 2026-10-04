@@ -5,6 +5,7 @@
 
 KeyInfo lastKeyInfo;
 CustomKeyboard Keyboard;
+int keyRepeatCount = 0;
 
 std::vector<KeyMkBrkInfo> keyQue;
 ROMAJISEQ outseq ;
@@ -119,6 +120,7 @@ void putReport(uint8_t outhidcode, uint8_t modifiers){
     outreport.keys[0] = outhidcode;
 //    debugPrint("put:" + String(modifiers,HEX ) + dumpReportString(outreport.keys,6));
 
+      dumpKeyReport(outreport.keys,6, "Keyboard putReport ");
     Keyboard.sendReport(&outreport);
     delay(10);
     Keyboard.sendReport(&releasereport);
@@ -135,6 +137,26 @@ void dumpOutSeq(){
   }
 //  debugPrint("outseq -> "+dumpReportString(data,keyQue.size()));
 
+}
+
+void putSeq(uint8_t modifiers){
+
+  bool addshift = false;
+  for( int j=0; j<8; ++j){
+    if(outseq.outcode[j]==0){
+      break;
+    }
+    if( outseq.outcode[j]==HID_addshift){
+      addshift = true;
+    }else{
+      if( addshift ){
+        putReport(outseq.outcode[j], modifiers | 0x02 );
+        addshift = false;
+      }else{
+        putReport(outseq.outcode[j], modifiers);
+      }
+    }
+  }
 }
 
 void putQue(uint8_t modifiers){
@@ -180,14 +202,8 @@ void putQue(uint8_t modifiers){
     }
   } 
 
-//dumpOutSeq();
+  putSeq(modifiers);
 
-  for( int j=0; j<8; ++j){
-    if(outseq.outcode[j]==0){
-      break;
-    }
-    putReport(outseq.outcode[j], modifiers);
-  }
 }
 
 void keyboardProc( KeyReport report ){
@@ -202,8 +218,35 @@ bool isKeyboardTimeout(){
   return (millis() - lastKeyInfo.accessTime) > 100 ;
 }
 
+bool isAllKeyReleased(){
+  for( int i=0; i<6; ++i){
+    if( lastKeyInfo.report.keys[i] != 0 ){
+      if( keyRepeatCount < 5){
+        ++keyRepeatCount;
+      }
+      return false;
+    }
+  }
+  keyRepeatCount = 0;
+  return true;
+}
+
 void keyboardProcTimeout(){
-  
+  if(!isAllKeyReleased()){
+    /*
+    String lastseq = "lastseq = ";
+    for( int i=0; i<8; ++i){      
+      if(outseq.outcode[i]==0){
+        break;
+      }
+      lastseq = lastseq + String(outseq.outcode[i],HEX)+" ";
+    }
+    debugPrint( lastseq );
+    */
+    if( keyRepeatCount > 2 ){
+      putSeq(lastKeyInfo.report.modifiers);
+    }
+  }
   lastKeyInfo.accessTime = millis();
 
   KeyMkBrkInfo kmbi;

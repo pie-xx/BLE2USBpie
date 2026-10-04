@@ -14,6 +14,8 @@ extern CustomKeyboard Keyboard;
 
 enum ACTMODE actMode;
 
+extern QueueHandle_t bleKeyQueue;
+
 // ============================================================
 // BLE Client callbacks
 // 接続・切断はこちら
@@ -58,9 +60,8 @@ void notifyCallback(
     size_t length,
     bool isNotify)
 {
-//  dumpKeyReport(data, length);
+  KeyReport report = {};
 
-  KeyReport report;
   if (length > 0) {
       report.modifiers = data[0];
   }
@@ -68,62 +69,12 @@ void notifyCallback(
       report.reserved = data[1];
   }
 
-  bool isMousekey = false;
-  bool isKana = false;
-  bool isEng = false;
-  for (size_t i = 0; i < 6 && (i + 2) < length; i++) {
+  for (size_t i = 0; i < 6 && i + 2 < length; i++) {
       report.keys[i] = data[i + 2];
-      if( data[i+2]==HID_PRTSC){
-        isMousekey = true;
-      }
-      if( data[i+2]==HID_CAPS){
-        isEng = true;
-      }
-      if( data[i+2]==HID_KANA){
-        isKana = true;
-      }
   }
 
-  if(isMousekey){
-    if( actMode == AM_KEY ){
-        actMode = AM_MOUSE;
-        debugPrint("AM_MOUSE ---------------------------------");
-        restartMouse();
-    }else{
-        actMode = AM_KEY;
-        debugPrint("AM_KEY   ---------------------------------");
-    }
-    return;
-  }
+  xQueueSend(bleKeyQueue, &report, 0);
 
-  if(isKana){
-    actMode = AM_KEY_KANA;
-  }
-  if(isEng){
-    actMode = AM_KEY;
-  }
-
-  switch( actMode ){
-  case AM_KEY:
-    Keyboard.sendReport(&report);
-    break;
-  case AM_KEY_KANA:
-    if(report.modifiers!=0){
-        Keyboard.sendReport(&report);
-    }else{
-        keyboardProc(report);
-    }
-    break;
-  case AM_MOUSE:
-    if(length == 8){
-        if(mouseProc(report)){
-            for( int i= 0; i<6; ++i){
-                report.keys[i] = 0;
-            }
-        }
-        Keyboard.sendReport(&report);
-    }
-  }
 }
 
 // -----------------------------------------------------
