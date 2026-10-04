@@ -93,7 +93,7 @@ ROMAJISEQ ROMA_6 = { HID_6, 0};  // ・
 ROMAJISEQ ROMA_7 = { HID_7, 0};  // ・
 ROMAJISEQ ROMA_8 = { HID_8, 0};  // ・
 ROMAJISEQ ROMA_9 = { HID_9, 0};  // ・
-ROMAJISEQ ROMA_0= { HID_0, 0};  // ・
+ROMAJISEQ ROMA_0 = { HID_0, 0};  // ・
 
 
 ROMAJISEQ ROMA_ten = { HID_COMM, 0}; // 、
@@ -119,6 +119,14 @@ ROMAJISEQ ROMA_dot = {  HID_DOT, 0}; // = 0x37; // .
 ROMAJISEQ ROMA_sla = {  HID_SLA, 0}; // = 0x38; // ・
 
 ROMAJISEQ ROMA_VU = { HID_3, HID_0, HID_F, HID_4, HID_F5, 0}; // ウ
+ROMAJISEQ ROMA_QES = { HID_addshift, HID_SLA, 0}; // ？
+
+ROMAJISEQ ROMA_TILD = { HID_addshift, HID_HAT, 0}; // ？
+ROMAJISEQ ROMA_RNDlbra = { HID_addshift, HID_8, 0}; // ？
+ROMAJISEQ ROMA_RNDrbra = { HID_addshift, HID_9, 0}; // ？
+ROMAJISEQ ROMA_Zsla = { HID_CAPS, HID_SLA, HID_KANA, 0}; // 
+ROMAJISEQ ROMA_SQRlbra = { HID_CAPS, HID_LBRA, HID_KANA, 0}; // 
+ROMAJISEQ ROMA_SQRrbra = { HID_CAPS, HID_RBRA, HID_KANA, 0}; // 
 
 ROMAJISEQ hid2romajiNS[RomaoutLen] = {
   ROMA_U, // HID_A = 0x04;
@@ -208,10 +216,10 @@ ROMAJISEQ hid2romajiOR[RomaoutLen] = {
   ROMA_3, // HID_3 = 0x20;
   ROMA_4, // HID_4 = 0x21;
   ROMA_5, // HID_5 = 0x22;
-  ROMA_lbra, // HID_6 = 0x23;
-  ROMA_rbra, // HID_7 = 0x24;
-  ROMA_lbra, // HID_8 = 0x25;  ()
-  ROMA_rbra, // HID_9 = 0x26; ()
+  ROMA_SQRlbra, // HID_6 = 0x23;
+  ROMA_SQRrbra, // HID_7 = 0x24;
+  ROMA_RNDlbra, // HID_8 = 0x25;  (
+  ROMA_RNDrbra, // HID_9 = 0x26; )
   ROMA_0, // HID_0 = 0x27;
   ROMA_ent, // HID_ENT = 0x28;
   ROMA_esc, // HID_ESC = 0x29;
@@ -259,11 +267,11 @@ ROMAJISEQ hid2romajiOL[RomaoutLen] = {
   ROMA_mins, // HID_X = 0x1B;
   ROMA_PA, // HID_Y = 0x1C;
   ROMA_sU, // HID_Z = 0x1D;
-  ROMA_1, // HID_1 = 0x1E;
-  ROMA_2, // HID_2 = 0x1F;
-  ROMA_3, // HID_3 = 0x20;
-  ROMA_4, // HID_4 = 0x21;
-  ROMA_5, // HID_5 = 0x22;
+  ROMA_QES, // HID_1 = 0x1E;
+  ROMA_Zsla, // HID_2 = 0x1F;
+  ROMA_TILD, // HID_3 = 0x20;
+  ROMA_lbra, // HID_4 = 0x21;
+  ROMA_rbra, // HID_5 = 0x22;
   ROMA_lbra, // HID_6 = 0x23;
   ROMA_rbra, // HID_7 = 0x24;
   ROMA_lbra, // HID_8 = 0x25;  ()

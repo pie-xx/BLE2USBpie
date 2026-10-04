@@ -1,4 +1,5 @@
 constexpr uint8_t HID_timeout = 0xff;
+constexpr uint8_t HID_addshift = 0xf2;
 
 constexpr uint8_t HID_A = 0x04;
 constexpr uint8_t HID_B = 0x05;
