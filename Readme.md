@@ -1,8 +1,10 @@
 # BLE2USBpie
 
-ESP32-S3にBLE接続したキーボードからHID入力を受け取り、親指シフト打鍵をローマ字打鍵に変換して、USB接続したPCへ出力するアプリです。キーボードでマウスカーソルをドット単位で操作するモードも備えています。
+ESP32-S3にBLE接続したキーボードからHID入力を受け取り、親指シフト打鍵をローマ字打鍵に変換して、USB接続したPCへ出力するプログラムです。キーボードでマウスカーソルをドット単位で操作するモードも備えています。
 
 ESP32-S3-WROOM1搭載の開発用ボードで実装しました。開発時に使ったキーボードはELECOM TK-CM10BMKIVですが、BLE対応なら接続可能でしょう。
+
+親指シフトを使わない人は、ESP32-S3でPCのマウスとキーボードを制御するサンプルだと思ってください。
 
 ![開発機](doc/smpic.jpg)
 
@@ -20,16 +22,20 @@ BLEキーボードが節電状態になり接続が切れるとLEDが赤色の�
 
 ### 通常モード
 
-1. LEDは緑の常時点灯。キー入力はそのままUSBに出力します。
+キー入力はそのままUSBに出力します。
+
+1. LEDは緑の常時点灯。
 2. [ひらがな]キーで親指シフトモードになります。
 3. [prtsc]キーでマウスモードになります。
 
 ### 親指シフトモード
 
-1. LEDは明るめの黄色の常時点灯。親指シフトキー入力をローマ字に変換してUSBに出力します。
-2. 左親指シフトは[無変換]キー、右親指シフトは[変換]キーです。
+親指シフトキー入力をローマ字に変換してUSBに出力します。
+
+1. LEDは明るめの黄色の常時点灯。
+2. 左親指シフトは[無変換]キー、右親指シフトは[変換]キーです。これ以外の組み合わせで使うには、keyboardProc.cppのoyaRkey, oyaLkeyの定義を変更してください。
 3. [Caps]キーで通常モードに戻ります。モードがIMEとズレた場合は、何度か押すとそのうち合います。
-4. 親指シフト判定ロジックは[ENICOLA配列規格書](http://nicola.sunicom.co.jp/spec/kikaku.htm?fbclid=IwY2xjawUbJMhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMUlkOGU1RHFNSlR6bFpvbGFzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeMopsu0Qo3N7O_VOa9-W_iwuZDCPb_Ux99x8JGOTqfV9976pkORqU1S05QSg_aem_nWrI8W7LLH0CEXNBPkGXLQ)よりも簡略化されています。物凄く早く打鍵するとおかしなことがあるかもしれませんが、私自身が打鍵する分には特に支障はありませせん。
+4. 親指シフト判定ロジックは[NICOLA配列規格書](http://nicola.sunicom.co.jp/spec/kikaku.htm?fbclid=IwY2xjawUbJMhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMUlkOGU1RHFNSlR6bFpvbGFzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeMopsu0Qo3N7O_VOa9-W_iwuZDCPb_Ux99x8JGOTqfV9976pkORqU1S05QSg_aem_nWrI8W7LLH0CEXNBPkGXLQ)よりも簡略化されています。物凄く早く打鍵するとヘンなことがありますが、私自身が通常使用する分には特に支障はありませせん。
 
 親指シフトについては[日本語入力コンソーシアム](http://nicola.sunicom.co.jp/info2.html)を参照してください。
 
@@ -51,6 +57,8 @@ BLEキーボードが節電状態になり接続が切れるとLEDが赤色の�
 |F10|カーソル↓|
 |F11|カーソル↑|
 |F12|カーソル→|
+
+これ以外のキー入力は、そのままUSBに出力します。
 
 ## ビルド方法
 
