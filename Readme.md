@@ -35,7 +35,8 @@ BLEキーボードが節電状態になり接続が切れるとLEDが赤色の�
 1. LEDは明るめの黄色の常時点灯。
 2. 左親指シフトは[無変換]キー、右親指シフトは[変換]キーです。これ以外の組み合わせで使うには、keyboardProc.cppのoyaRkey, oyaLkeyの定義を変更してください。
 3. [Caps]キーで通常モードに戻ります。モードがIMEとズレた場合は、何度か押すとそのうち合います。
-4. 親指シフト判定ロジックは[NICOLA配列規格書](http://nicola.sunicom.co.jp/spec/kikaku.htm?fbclid=IwY2xjawUbJMhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMUlkOGU1RHFNSlR6bFpvbGFzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeMopsu0Qo3N7O_VOa9-W_iwuZDCPb_Ux99x8JGOTqfV9976pkORqU1S05QSg_aem_nWrI8W7LLH0CEXNBPkGXLQ)よりも簡略化されています。物凄く早く打鍵するとヘンなことがありますが、私自身が通常使用する分には特に支障はありませせん。
+4. 親指シフト判定ロジックは[NICOLA配列規格書](http://nicola.sunicom.co.jp/spec/kikaku.htm?fbclid=IwY2xjawUbJMhwZG9mBWV4dG4DYWVtAjEwAGJyaWQRMUlkOGU1RHFNSlR6bFpvbGFzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeMopsu0Qo3N7O_VOa9-W_iwuZDCPb_Ux99x8JGOTqfV9976pkORqU1S05QSg_aem_nWrI8W7LLH0CEXNBPkGXLQ)よりも簡略化されています。素早く打鍵するとヘンなことがありますが、私自身が通常使用する分にはあまり支障はありませせん。
+5. コントロール、シフト、Alt、Winなどの修飾キーが押されたときは、キー入力をそのまま出力します。なのでシフトキーで半濁音は出せません。クロスシフトを使ってください。
 
 親指シフトについては[日本語入力コンソーシアム](http://nicola.sunicom.co.jp/info2.html)を参照してください。
 
@@ -66,6 +67,8 @@ Arduino IDEで本プロジェクトを開き、対象のボードとしてESP32S
 
 - NimBLE-Arduino 2.5.1
 - Adafruit_NeoPixel 1.15.5
+
+Arduino IDEのバージョンは2.3.10です
 
 ## ライセンス
 
